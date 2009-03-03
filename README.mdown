@@ -1,0 +1,49 @@
+# Rspec Scaffold Generator
+
+A simple Rails generator that produces a scaffold for a model and a restful controller,
+along with pending specs for the model, controller and views.  Fixtures files (yml) are
+not generated. The views are generated with Haml, with a couple of convenience changes
+from the normal Rails scaffold.
+
+## Requirements
+
+* A Rails application (tested on 2.3+)
+* Rspec and Rspec on Rails 
+* Haml
+
+## Usage
+
+Use script/generate:
+
+    script/generate rspec_scaffold FooBar
+    
+This will produce:
+    
+    app/controllers/foo_bars_controller.rb
+    app/models/foo_bar.rb
+    app/views/foo_bars/_form.html.haml
+    app/views/foo_bars/edit.html.haml
+    app/views/foo_bars/index.html.haml
+    app/views/foo_bars/new.html.haml
+    app/views/foo_bars/show.html.haml
+    db/migrate/[timestamp]_create_foo_bars.rb
+    spec/controllers/foo_bars_controller_spec.rb
+    spec/models/foo_bar_spec.rb
+    spec/views/_form.html.haml_spec.rb
+    spec/views/edit.html.haml_spec.rb
+    spec/views/index.html.haml_spec.rb
+    spec/views/show.html.haml_spec.rb
+    spec/views/new.html.haml_spec.rb
+    
+It will also generate restful routes in config/routes.rb:
+
+    map.resources :foo_bar
+
+## Notes
+
+This could probably be taken farther, perhaps by making Haml optional, but it does 
+the job adequately for my needs.
+
+## License
+
+Copyright (c) 2009 Henry Poydar, released under the MIT license

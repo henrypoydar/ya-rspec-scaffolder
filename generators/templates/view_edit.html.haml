@@ -1,0 +1,16 @@
+%h2
+  Edit <%= singular_name %>
+
+- form_for(@<%= singular_name %>) do |f|
+  = f.error_messages
+  
+  = render 'form', :f => f
+  
+  %p
+    = f.submit 'Update'
+    
+%ul
+  %li
+    = link_to 'Show', @<%= singular_name %>
+  %li
+    = link_to 'Back', <%= plural_name %>_path

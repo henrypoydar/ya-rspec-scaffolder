@@ -1,0 +1,6 @@
+<% attributes.each do |attribute| -%>
+%p
+  = f.label :<%= attribute.name %>
+  = f.<%= attribute.field_type %> :<%= attribute.name %>
+  
+<% end -%>
