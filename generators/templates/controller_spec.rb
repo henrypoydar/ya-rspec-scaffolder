@@ -3,8 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe <%= controller_class_name %>Controller do
   
   before :each do
-    @<%= singular_name %> = <%= class_name %>.create!
+    @<%= singular_name %> = mock_model(<%= class_name %>)
     @<%= plural_name %> = [@<%= singular_name %>]
+    <%= class_name %>.stub!(:find).and_return(@<%= singular_name %>)
+    <%= class_name %>.stub!(:all).and_return(@<%= plural_name %>)
   end
   
   describe "routing" do
@@ -65,7 +67,7 @@ describe <%= controller_class_name %>Controller do
     end
     
     it 'should render the index template' do
-      response.should render_template('<%= plural_name %>/index')
+      response.should render_template('index')
     end
     
   end
@@ -74,7 +76,7 @@ describe <%= controller_class_name %>Controller do
   describe '#show' do
     
     before :each do
-      get(:show, :id => @<%= singular_name %>.id.to_s)
+      get(:show, :id => 36)
     end
   
     it 'should find a <%= singular_name %> from the id' do
@@ -82,7 +84,7 @@ describe <%= controller_class_name %>Controller do
     end
     
     it 'should render the show template' do
-      response.should render_template('<%= plural_name %>/show')
+      response.should render_template('show')
     end
  
   end
@@ -95,21 +97,140 @@ describe <%= controller_class_name %>Controller do
     end
      
     it 'should render the new template' do
-      response.should render_template('<%= plural_name %>/new')
+      response.should render_template('new')
     end
     
   end
  
   describe '#create' do
+    
+    def do_create
+      post(:create, {})
+    end
+    
+    describe 'on success' do
+      
+      before :each do
+        <%= class_name %>.stub!(:new).and_return(@<%= singular_name %> = mock_model(<%= class_name %>, :save => true))
+      end
+      
+      it 'should display a flash notice' do
+        do_create
+        flash[:success].should_not be_nil
+      end
+      
+      it 'should redirect to the show action for the newly created object' do
+        do_create
+        assigns[:<%= singular_name %>].should == @<%= singular_name %>
+        response.should redirect_to(/<%= singular_name %>\/show/)
+      end
+      
+    end
+    
+    describe 'on failure' do
+      
+      before :each do
+        <%= class_name %>.stub!(:new).and_return(@<%= singular_name %> = mock_model(<%= class_name %>, :save => false))
+      end
+
+      it 'should not display a flash success notice' do
+        do_create
+        flash[:success].should be_nil
+      end
+
+      it 'should assign @<%= singular_name %> and render the new action' do
+        do_create
+        assigns[:<%= singular_name %>].should == @<%= singular_name %>
+        response.should render_template('new')
+      end
+      
+    end
+    
   end
   
   describe "#edit" do
+    
+    before :each do
+      get(:edit, :id => 36)
+    end
+
+    it "should render the edit template" do
+      response.should render_template('edit')
+    end
+
+    it "should assign a new @<%= %> instance variable" do
+      assigns[:<%= singular_name %>].class.should == <%= class_name %>
+      assigns[:<%= singular_name %>].should == @<%= singular_name %>
+    end
+    
   end
  
   describe "#update" do
+    
+    def do_update
+      post(:update, {})
+    end
+
+    describe 'on success' do
+    
+      before :each do
+        @<%= singular_name %>.stub!(:update_attributes).and_return(true)
+      end
+      
+      it 'should display a flash notice' do
+        do_create
+        flash[:success].should_not be_nil
+      end
+
+      it 'should redirect to the show action for the udpated object' do
+        do_update
+        assigns[:<%= singular_name %>].should == @<%= singular_name %>
+        response.should redirect_to(:action => 'show')
+      end
+    
+    end
+    
+    describe 'on failure' do
+      
+      before :each do
+        @<%= singular_name %>.stub!(:update_attributes).and_return(false)
+      end
+      
+      it 'should not display a flash success notice' do
+        do_create
+        flash[:success].should be_nil
+      end
+
+      it 'should assign @<%= singular_name %> and render the edit action' do
+        do_create
+        assigns[:<%= singular_name %>].should == @<%= singular_name %>
+        response.should render_template('edit')
+      end
+      
+    end
+    
   end
  
   describe "#destroy" do
+    
+    before :each do
+      @<%= singular_name %>.stub!(:destroy).and_return(true)
+    end
+    
+    def do_delete
+      delete :destroy, :id => '36'
+    end
+    
+    it "should flash a success message" do
+      do_delete
+      flash[:success].should_not be_nil
+    end
+    
+    it "should redirect to the index" do
+      do_delete
+      response.should redirect_to(:action => 'index')
+    end
+    
   end
  
 end
