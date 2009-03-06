@@ -5,6 +5,14 @@ along with pending specs for the model, controller and views.  Fixtures files (y
 not generated. The views are generated with Haml, with a couple of convenience changes
 from the normal Rails scaffold.
 
+## TODO
+
+This generator is in-progress
+
+* model spec template
+* view templates
+* test run
+
 ## Requirements
 
 * A Rails application (tested on 2.3+)

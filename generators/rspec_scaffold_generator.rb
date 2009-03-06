@@ -60,11 +60,18 @@ class ScaffoldGenerator < Rails::Generator::NamedBase
         )
       end
 
+      # Controller spec
       m.template('controller_spec.rb', File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb"))
+      
+      # Model spec
+      m.template('model_spec.rb', File.join('spec/models', "#{file_name}_spec.rb"))
 
+      # Routes
       m.route_resources controller_file_name
 
+      # Model
       m.dependency 'model', [name] + @args, :collision => :skip
+    
     end
   end
 
