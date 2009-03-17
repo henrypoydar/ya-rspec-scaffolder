@@ -7,8 +7,8 @@ describe '<%= plural_name %>/new' do
     render '<%= plural_name %>/new'
   end
 
-  it 'should have a submit tag' do
-    response.should have_tag('input[type=submit]')
+  it 'should render a new form' do
+    response.should have_tag("form[action=?][method=post]", <%= plural_name %>_path) do; end
   end
 
   it 'should render successfully' do

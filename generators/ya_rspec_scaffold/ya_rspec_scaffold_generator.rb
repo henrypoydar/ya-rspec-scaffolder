@@ -44,8 +44,8 @@ class YaRspecScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('app/models', class_path))
       m.directory(File.join('app/controllers', controller_class_path))
       m.directory(File.join('app/views', controller_class_path, controller_file_name))
-      m.directory('spec/controllers', controller_class_path))
-      m.directory('spec/models', class_path))
+      m.directory(File.join('spec/controllers', controller_class_path))
+      m.directory(File.join('spec/models', class_path))
       m.directory(File.join('spec/views', controller_class_path, controller_file_name))
 
       # Views and view specs
@@ -60,7 +60,10 @@ class YaRspecScaffoldGenerator < Rails::Generator::NamedBase
         )
       end
 
-      # Controller spec
+      # Controller and controller spec
+      m.template(
+        'controller.rb', File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb")
+      )
       m.template('controller_spec.rb', File.join('spec/controllers', controller_class_path, "#{controller_file_name}_controller_spec.rb"))
       
       # Model spec
@@ -78,7 +81,7 @@ class YaRspecScaffoldGenerator < Rails::Generator::NamedBase
   protected
 
     def banner
-      "Usage: #{$0} rspec_scaffold ModelName [field:type, field:type]"
+      "Usage: #{$0} ya_rspec_scaffold ModelName [field:type, field:type]"
     end
 
     def add_options!(opt)

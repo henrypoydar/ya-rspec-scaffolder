@@ -3,7 +3,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   def index
     @<%= table_name %> = <%= class_name %>.all
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @<%= table_name %> }
     end
   end
@@ -11,7 +11,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   def show
     @<%= file_name %> = <%= class_name %>.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @<%= file_name %> }
     end
   end
@@ -19,12 +19,11 @@ class <%= controller_class_name %>Controller < ApplicationController
   def new
     @<%= file_name %> = <%= class_name %>.new
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @<%= file_name %> }
     end
   end
 
-  
   def edit
     @<%= file_name %> = <%= class_name %>.find(params[:id])
   end
@@ -60,6 +59,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   def destroy
     @<%= file_name %> = <%= class_name %>.find(params[:id])
     @<%= file_name %>.destroy
+    flash[:success] = 'Item deleted.'
     respond_to do |format|
       format.html { redirect_to(<%= table_name %>_url) }
       format.xml  { head :ok }
