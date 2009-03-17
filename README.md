@@ -1,6 +1,6 @@
 # Yet Another Rspec Scaffolder
 
-Yet another Rspec scaffold generator for Rails applications. Haml templates are created instead of erb, fixtures are not created, helpers are not created and in general only very basic code is generated.  See below for a full file listing.
+Yet another Rspec scaffold generator for Rails applications. Haml templates are created instead of erb, fixtures, helpers and layouts are not created, and in general only very basic code is generated.  See below for a full file listing.
 
 ## Requirements
 
